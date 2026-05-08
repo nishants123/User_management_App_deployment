@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserHub - Professional User Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading UserHub...</h2>
+            <p>Connecting to database...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-users"></i>
+                <span>UserHub</span>
+            </div>
+            <nav class="nav">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#users" class="nav-link">
+                    <i class="fas fa-user-friends"></i> Users
+                </a>
+                <a href="#analytics" class="nav-link">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-text">Professional</span>
+                    <span class="hero-text gradient-text">User Management</span>
+                </h1>
+                <p class="hero-subtitle">Manage your users with style and efficiency</p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeUsers">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="newUsers">0</div>
+                        <div class="stat-label">New This Month</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="card-3d card-1">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Users</span>
+                    </div>
+                    <div class="card-3d card-2">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Info</span>
+                    </div>
+                    <div class="card-3d card-3">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Manage</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+            <button class="btn-3d btn-primary" onclick="showAddForm()">
+                <i class="fas fa-plus"></i>
+                <span>Add New User</span>
+            </button>
+            <button class="btn-3d btn-secondary" onclick="refreshUsers()">
+                <i class="fas fa-sync-alt"></i>
+                <span>Refresh Data</span>
+            </button>
+        </div>
+
+        <!-- Add User Form -->
+        <div id="addUserForm" class="form-container-3d" style="display:none;">
+            <div class="form-header">
+                <h2><i class="fas fa-user-plus"></i> Add New User</h2>
+                <button class="close-btn" onclick="hideAddForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="addUser(event)" class="form-3d">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="name" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter phone number">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-3d btn-success">
+                        <i class="fas fa-save"></i> Save User
+                    </button>
+                    <button type="button" class="btn-3d btn-secondary" onclick="hideAddForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit User Form -->
+        <div id="editUserForm" class="form-container-3d" style="display:none;">
+            <div class="form-header">
+                <h2><i class="fas fa-edit"></i> Edit User</h2>
+                <button class="close-btn" onclick="hideEditForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="updateUser(event)" class="form-3d">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="editName" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="editEmail" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="editPhone" placeholder="Enter phone number">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-3d btn-success">
+                        <i class="fas fa-save"></i> Update User
+                    </button>
+                    <button type="button" class="btn-3d btn-secondary" onclick="hideEditForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container-3d">
+            <div class="table-header">
+                <h2><i class="fas fa-users"></i> User Directory</h2>
+                <div class="table-stats">
+                    <span id="userCount">0 users</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table id="usersTable" class="table-3d">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-user"></i> Name</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-phone"></i> Phone</th>
+                            <th><i class="fas fa-calendar"></i> Created</th>
+                            <th><i class="fas fa-cogs"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+                <div id="noUsers" class="no-data-3d" style="display:none;">
+                    <div class="no-data-content">
+                        <i class="fas fa-users"></i>
+                        <h3>No users found</h3>
+                        <p>Start by adding your first user!</p>
+                        <button class="btn-3d btn-primary" onclick="showAddForm()">
+                            <i class="fas fa-plus"></i> Add First User
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-users"></i>
+                <span>UserHub</span>
+            </div>
+            <div class="footer-text">
+                <p>&copy; 2024 UserHub. Professional User Management System.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="alert-container"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
