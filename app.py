@@ -11,6 +11,7 @@ CORS(app)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+BACKUP_FILE_PATH = '/backup/Backupuserdata.txt'
 
 def get_db_connection():
     """Create database connection"""
@@ -19,12 +20,41 @@ def get_db_connection():
             host=Config.DB_HOST,
             user=Config.DB_USER,
             password=Config.DB_PASSWORD,
-            database=Config.DB_NAME
+            database=Config.DB_NAME,
+            port=Config.DB_PORT,
         )
         return connection
     except mysql.connector.Error as err:
         logger.error(f"Database connection failed: {err}")
         return None
+
+def write_backup_file(users=None):
+    """Write current user data into the local backup text file."""
+    try:
+        if users is None:
+            connection = get_db_connection()
+            if not connection:
+                logger.warning('Backup skipped: database connection failed.')
+                return
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute('SELECT * FROM users')
+            users = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+        lines = ['id,name,email,phone,created_at']
+        for user in users:
+            phone = user.get('phone') or ''
+            line = f"{user['id']},{user['name']},{user['email']},{phone},{user['created_at']}"
+            lines.append(line)
+
+        with open(BACKUP_FILE_PATH, 'w', encoding='utf-8') as backup_file:
+            backup_file.write('\n'.join(lines))
+
+        logger.info('Backup file written successfully.')
+    except Exception as err:
+        logger.error(f'Failed to write backup file: {err}')
+
 
 def validate_email(email):
     """Validate email format"""
@@ -100,6 +130,7 @@ def create_user():
         )
         connection.commit()
         user_id = cursor.lastrowid
+        write_backup_file()
         return jsonify({'message': 'User created', 'user_id': user_id}), 201
     except mysql.connector.Error as e:
         connection.rollback()
@@ -134,7 +165,8 @@ def update_user(user_id):
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'User not found'}), 404
-        
+
+        write_backup_file()
         return jsonify({'message': 'User updated'}), 200
     except mysql.connector.Error as e:
         connection.rollback()
@@ -160,7 +192,8 @@ def delete_user(user_id):
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'User not found'}), 404
-        
+
+        write_backup_file()
         return jsonify({'message': 'User deleted'}), 200
     except mysql.connector.Error as e:
         connection.rollback()
@@ -169,6 +202,12 @@ def delete_user(user_id):
     finally:
         cursor.close()
         connection.close()
+
+# Backup endpoint
+@app.route('/backup', methods=['POST'])
+def backup():
+    write_backup_file()
+    return jsonify({'message': 'Backup file updated'}), 200
 
 # Health check
 @app.route('/health', methods=['GET'])

@@ -10,9 +10,3 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- Insert sample data
-INSERT INTO users (name, email, phone) VALUES
-('John Doe', 'john@example.com', '1234567890'),
-('Jane Smith', 'jane@example.com', '0987654321'),
-('Bob Johnson', 'bob@example.com', '5555555555');
