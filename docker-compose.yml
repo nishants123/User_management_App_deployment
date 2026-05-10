@@ -1,13 +1,11 @@
-#app service
-services:
+﻿services:
   web:
-    container_name: user_management_app
+    container_name: user_management_web
     build: .
     ports:
       - "5000:5000"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       DB_HOST: db
       DB_USER: app_user
@@ -19,7 +17,6 @@ services:
     networks:
       - app-network
 
-# Database service
   db:
     container_name: mysqldb
     image: mysql:8.0
@@ -39,14 +36,13 @@ services:
       start_period: 30s
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
-      - ./Backupuserdata.txt:/backup/Backupuserdata.txt
       - mysql_data:/var/lib/mysql
     networks:
       - app-network
 
-volumes: 
+volumes:
   mysql_data:
 
-networks: # Define a custom network for the application-so that the services can communicate with each other
-  app-network: 
+networks:
+  app-network:
     driver: bridge
