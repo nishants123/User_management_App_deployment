@@ -15,9 +15,14 @@ jobs:
         - name: checkout code
           uses: actions/checkout@v4
 
+        - name: set up kubectl
+          uses: azure/setup-kubectl@v3
+          with:
+            version: 'latest'
+
         - name: print workflow triggered msg
           run: echo "Workflow triggered successfully"
-          
+
         - name: deploy sql config file
           run: kubectl apply -f sql-mount-config.yml
 
