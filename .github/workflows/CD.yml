@@ -15,19 +15,22 @@ jobs:
         - name: checkout code
           uses: actions/checkout@v4
 
+        - name: print workflow triggered msg
+          run: echo "Workflow triggered successfully"
+          
         - name: deploy sql config file
-          run: apply -f sql-mount-config.yml
+          run: kubectl apply -f sql-mount-config.yml
 
         - name: deploy mysql 
-          run: apply -f database_mysql.yml
+          run: kubectl apply -f database_mysql.yml
 
         - name: deploy app and db config 
-          run: apply -f app-db-config.yml
+          run: kubectl apply -f app-db-config.yml
 
         - name: deploy app file
-          run: apply -f app-deploy.yml
+          run: kubectl apply -f app-deploy.yml
 
         - name: print successfully deployment msg
-          run: echo "Deployment successful"
+          run: echo "App deployed successfully"
 
         
