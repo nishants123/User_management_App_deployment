@@ -24,16 +24,16 @@ jobs:
           run: echo "Workflow triggered successfully"
 
         - name: deploy sql config file
-          run: kubectl apply -f "kubernet deployment/sql-mount-config.yml"
+          run: kubectl apply -f "Kubernet deployment/sql_mount_config.yml"
 
         - name: deploy mysql 
-          run: kubectl apply -f "kubernet deployment/database_mysql.yml"
+          run: kubectl apply -f "Kubernet deployment/database_mysql.yml"
 
         - name: deploy app and db config 
-          run: kubectl apply -f "kubernet deployment/app-db-config.yml"
+          run: kubectl apply -f "Kubernet deployment/app_db_config.yml"
 
         - name: deploy app file
-          run: kubectl apply -f "kubernet deployment/app-deploy.yml"
+          run: kubectl apply -f "Kubernet deployment/app_deploy.yml"
 
         - name: print successfully deployment msg 
           run: echo "App deployed successfully"
