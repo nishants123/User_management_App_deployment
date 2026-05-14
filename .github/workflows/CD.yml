@@ -1,0 +1,33 @@
+name: App deployment using kubernetes
+
+on: 
+  workflow_run:
+    workflows: ["User management python application CI"]
+    types:
+      - completed
+
+jobs:
+  Deployment_kube:
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: checkout code
+          uses: actions/checkout@v4
+
+        - name: deploy sql config file
+          run: apply -f sql-mount-config.yml
+
+        - name: deploy mysql 
+          run: apply -f database_mysql.yml
+
+        - name: deploy app and db config 
+          run: apply -f app-db-config.yml
+
+        - name: deploy app file
+          run: apply -f app-deploy.yml
+
+        - name: print successfully deployment msg
+          run: echo "Deployment successful"
+
+        
