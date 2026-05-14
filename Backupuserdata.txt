@@ -2,7 +2,6 @@ id,name,email,phone,created_at
 6,Nishant Sahu,sahunishant1233@gmail.com,9303909875,2026-05-10 19:13:59
 7,Mayank Agrawal Bhadwa,mayank231@gmail.com,7805818212,2026-05-10 19:14:42
 9,Nihal sahu,sa2unishant1233@gmail.com,9303909875,2026-05-10 19:15:11
-10,Mohan reddy,mohanreddy1233@gmail.com,5564123432,2026-05-10 19:48:20
 11,Aman sahu,aman1211@gmail.com,1212132323,2026-05-10 19:57:33
 13,nikhil,sahunishant1231@gmail.com,09303909875,2026-05-10 20:55:48
 14,Sumit,sumit@gmail.com,4523432123,2026-05-11 11:06:13
