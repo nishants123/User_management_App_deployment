@@ -1,4 +1,4 @@
-name: App deployment using kubernetes
+name: App deployment using kubernetes CD
 
 on: 
   workflow_run:
@@ -24,18 +24,18 @@ jobs:
           run: echo "Workflow triggered successfully"
 
         - name: deploy sql config file
-          run: kubectl apply -f sql-mount-config.yml
+          run: kubectl apply -f "kubernet deployment/sql-mount-config.yml"
 
         - name: deploy mysql 
-          run: kubectl apply -f database_mysql.yml
+          run: kubectl apply -f "kubernet deployment/database_mysql.yml"
 
         - name: deploy app and db config 
-          run: kubectl apply -f app-db-config.yml
+          run: kubectl apply -f "kubernet deployment/app-db-config.yml"
 
         - name: deploy app file
-          run: kubectl apply -f app-deploy.yml
+          run: kubectl apply -f "kubernet deployment/app-deploy.yml"
 
-        - name: print successfully deployment msg
+        - name: print successfully deployment msg 
           run: echo "App deployed successfully"
 
         
