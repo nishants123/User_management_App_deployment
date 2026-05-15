@@ -9,7 +9,7 @@ on:
 jobs:
   Deployment_kube:
 
-      runs-on: ubuntu-latest
+      runs-on: self-hosted-runner
 
       steps:
         - name: checkout code
