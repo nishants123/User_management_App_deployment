@@ -15,10 +15,10 @@ jobs:
         - name: checkout code
           uses: actions/checkout@v4
 
-        - name: set up kubectl
-          uses: azure/setup-kubectl@v3
-          with:
-            version: 'latest'
+        # - name: set up kubectl        # i am using self-hosted runner which already has kubectl installed, so no need to set up kubectl
+        #   uses: azure/setup-kubectl@v3
+        #   with:
+        #     version: 'latest'
 
         - name: print workflow triggered msg
           run: echo "Workflow triggered successfully"
