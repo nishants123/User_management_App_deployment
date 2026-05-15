@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.49.2:3249';
+const API_URL = 'http://127.0.0.1:55806';
 
 // Load users on page load
 document.addEventListener('DOMContentLoaded', () => {
