@@ -9,7 +9,7 @@ on:
 jobs:
   Deployment_kube:
 
-      runs-on: self-hosted-runner
+      runs-on: self-hosted
 
       steps:
         - name: checkout code
