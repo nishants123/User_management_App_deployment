@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://192.168.49.2:3249';
 
 // Load users on page load
 document.addEventListener('DOMContentLoaded', () => {
