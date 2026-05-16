@@ -5,7 +5,10 @@ metadata:
 spec:
   capacity:
     storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: /data/mysql #volume storege path in the host machine
+    type: DirectoryOrCreate
