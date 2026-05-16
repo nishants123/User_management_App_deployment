@@ -1,4 +1,4 @@
-const API_URL = '';
+const API_URL = 'http://localhost:5000';
 
 // Load users on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,25 +21,25 @@ async function loadUsers() {
     try {
         const response = await fetch(`${API_URL}/users`);
         const data = await response.json();
-        
+
         const tbody = document.getElementById('usersBody');
         const noUsers = document.getElementById('noUsers');
         const userCount = document.getElementById('userCount');
         const totalUsersEl = document.getElementById('totalUsers');
-        
+
         if (data.users && data.users.length > 0) {
             tbody.innerHTML = '';
             noUsers.style.display = 'none';
-            
+
             // Update statistics
             totalUsersEl.textContent = data.users.length;
             userCount.textContent = `${data.users.length} user${data.users.length !== 1 ? 's' : ''}`;
-            
+
             data.users.forEach(user => {
                 const row = document.createElement('tr');
                 const createdAt = new Date(user.created_at).toLocaleDateString();
                 const phoneDisplay = user.phone ? user.phone : '-';
-                
+
                 row.innerHTML = `
                     <td>${user.id}</td>
                     <td>${escapeHtml(user.name)}</td>
@@ -65,7 +65,7 @@ async function loadUsers() {
             totalUsersEl.textContent = '0';
             userCount.textContent = '0 users';
         }
-        
+
         // Update other stats
         updateStats(data.users || []);
     } catch (error) {
@@ -78,11 +78,11 @@ async function loadUsers() {
 function updateStats(users) {
     const activeUsers = document.getElementById('activeUsers');
     const newUsers = document.getElementById('newUsers');
-    
+
     if (activeUsers) {
         activeUsers.textContent = users.length;
     }
-    
+
     if (newUsers) {
         const currentMonth = new Date();
         const newThisMonth = users.filter(u => {
@@ -90,8 +90,10 @@ function updateStats(users) {
             return userDate.getMonth() === currentMonth.getMonth() && 
                    userDate.getFullYear() === currentMonth.getFullYear();
         }).length;
-        
-        newUsers.textContent = newThisMonth;
+
+        if (newUsers) {
+            newUsers.textContent = newThisMonth;
+        }
     }
 }
 
@@ -127,16 +129,16 @@ function hideEditForm() {
 // Add new user
 async function addUser(event) {
     event.preventDefault();
-    
+
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
-    
+
     if (!name || !email) {
         showAlert('Please fill in all required fields', 'error');
         return;
     }
-    
+
     try {
         const response = await fetch(`${API_URL}/users`, {
             method: 'POST',
@@ -145,9 +147,9 @@ async function addUser(event) {
             },
             body: JSON.stringify({ name, email, phone })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.status === 201) {
             showAlert('✓ User added successfully!', 'success');
             hideAddForm();
@@ -166,17 +168,17 @@ async function addUser(event) {
 // Update user
 async function updateUser(event) {
     event.preventDefault();
-    
+
     const id = document.getElementById('editId').value;
     const name = document.getElementById('editName').value.trim();
     const email = document.getElementById('editEmail').value.trim();
     const phone = document.getElementById('editPhone').value.trim();
-    
+
     if (!name || !email) {
         showAlert('Please fill in all required fields', 'error');
         return;
     }
-    
+
     try {
         const response = await fetch(`${API_URL}/users/${id}`, {
             method: 'PUT',
@@ -185,9 +187,9 @@ async function updateUser(event) {
             },
             body: JSON.stringify({ name, email, phone })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.status === 200) {
             showAlert('✓ User updated successfully!', 'success');
             hideEditForm();
@@ -208,14 +210,14 @@ async function deleteUser(id) {
     if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
         return;
     }
-    
+
     try {
         const response = await fetch(`${API_URL}/users/${id}`, {
             method: 'DELETE'
         });
-        
+
         const data = await response.json();
-        
+
         if (response.status === 200) {
             showAlert('✓ User deleted successfully!', 'success');
             loadUsers();
@@ -240,9 +242,9 @@ function showAlert(message, type) {
     const alert = document.createElement('div');
     alert.className = `alert alert-${type}`;
     alert.innerHTML = message;
-    
+
     container.appendChild(alert);
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         alert.style.animation = 'slideOutRight 0.3s ease';
