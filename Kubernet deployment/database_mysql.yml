@@ -35,7 +35,7 @@ spec:
           - name: mysql-initdb-volume
             mountPath: /docker-entrypoint-initdb.d
 
-          - name: mysql-storage                           # actual mysql data will be stored in this path from backend
+          - name: mysql-persistent-storage                           # actual mysql data will be stored in this path from backend
             mountPath: /var/lib/mysql
 
 
