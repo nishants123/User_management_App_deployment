@@ -44,10 +44,10 @@ spec:
           configMap:
             name: mysql-initdb-config
 
-      volumes:                                            #take the data from /var/lib/mysql and store it in the persistent volume
-          - name: mysql-persistent-storage
-            persistentVolumeClaim:
-              claimName: mysql-pvc
+                                            #take the data from /var/lib/mysql and store it in the persistent volume
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
 
 #Here both case is opposite first we mount schema.sql to the container using sql mount configmap for running the sql file 
 # then mount the mysql data to the persistent volume using mysql-pvc claim 
