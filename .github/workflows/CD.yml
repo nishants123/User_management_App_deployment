@@ -30,7 +30,7 @@ jobs:
           run: kubectl apply -f "Kubernet deployment/database_mysql.yml"
 
         - name: deploy app and db config 
-          run: kubectl apply -f "Kubernet deployment/app_db_config.yml"
+          run: kubectl apply -f "Kubernet deployment/configMAP.yml"
 
         - name: deploy app file
           run: kubectl apply -f "Kubernet deployment/app_deploy.yml"

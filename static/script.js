@@ -1,10 +1,31 @@
-const API_URL = 'http://127.0.0.1:55806';
 
-// Load users on page load
-document.addEventListener('DOMContentLoaded', () => {
+
+let API_URL = '';
+let DB_HOST = '';
+let DB_PORT = '';
+
+// Load config and then users on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadConfig();
     loadUsers();
     hideLoadingScreen();
 });
+
+// Load DB_HOST and DB_PORT from config file and construct API_URL
+async function loadConfig() {
+    try {
+        const response = await fetch('/static/config.json');
+        const config = await response.json();
+        DB_HOST = config.DB_HOST;
+        DB_PORT = config.DB_PORT;
+        // Construct API_URL dynamically
+        API_URL = `http://${DB_HOST}:${DB_PORT}`;
+    } catch (error) {
+        console.error('Failed to load config:', error);
+        // Fallback to default or show error
+        API_URL = '';
+    }
+}
 
 // Hide loading screen
 function hideLoadingScreen() {

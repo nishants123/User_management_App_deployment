@@ -7,3 +7,4 @@ data:
   DB_USER: "app_user"
   DB_PASSWORD: "password"
   DB_NAME: "user_management"
+  DB_PORT: "3306"
