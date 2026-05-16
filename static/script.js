@@ -16,13 +16,10 @@ async function loadConfig() {
     try {
         const response = await fetch('/static/config.json');
         const config = await response.json();
-        DB_HOST = config.DB_HOST;
-        DB_PORT = config.DB_PORT;
-        // Construct API_URL dynamically
-        API_URL = `http://${DB_HOST}:${DB_PORT}`;
+        // ✅ Point to your backend API, not MySQL
+        API_URL = `http://${config.API_HOST}:${config.API_PORT}`;
     } catch (error) {
         console.error('Failed to load config:', error);
-        // Fallback to default or show error
         API_URL = '';
     }
 }
