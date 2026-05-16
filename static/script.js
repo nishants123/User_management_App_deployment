@@ -1,28 +1,10 @@
+const API_URL = '';
 
-
-let API_URL = '';
-let DB_HOST = '';
-let DB_PORT = '';
-
-// Load config and then users on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    await loadConfig();
+// Load users on page load
+document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
     hideLoadingScreen();
 });
-
-// Load DB_HOST and DB_PORT from config file and construct API_URL
-async function loadConfig() {
-    try {
-        const response = await fetch('/static/config.json');
-        const config = await response.json();
-        // ✅ Point to your backend API, not MySQL
-        API_URL = `http://${config.API_HOST}:${config.API_PORT}`;
-    } catch (error) {
-        console.error('Failed to load config:', error);
-        API_URL = '';
-    }
-}
 
 // Hide loading screen
 function hideLoadingScreen() {
@@ -109,9 +91,7 @@ function updateStats(users) {
                    userDate.getFullYear() === currentMonth.getFullYear();
         }).length;
         
-        if (newUsers) {
-            newUsers.textContent = newThisMonth;
-        }
+        newUsers.textContent = newThisMonth;
     }
 }
 
