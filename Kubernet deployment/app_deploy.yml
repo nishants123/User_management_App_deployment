@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: nishantsahu123/user_management_project:1.5
+        image: nishantsahu123/user_management_project:1.6
         ports:  
         - containerPort: 5000
 

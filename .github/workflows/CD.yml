@@ -26,6 +26,12 @@ jobs:
         - name: deploy sql config file
           run: kubectl apply -f "Kubernet deployment/sql_mount_config.yml"
 
+        - name: deploy persistent volume
+          run: kubectl apply -f "Kubernet deployment/Persistent_volume.yml"
+
+        - name: deploy persistent volume claim
+          run: kubectl apply -f "Kubernet deployment/Persistent_volume_Claim.yml"
+
         - name: deploy mysql 
           run: kubectl apply -f "Kubernet deployment/database_mysql.yml"
 

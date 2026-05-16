@@ -50,8 +50,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t nishantsahu123/user_management_project:1.5 .
-          docker push nishantsahu123/user_management_project:1.5
+          docker build -t nishantsahu123/user_management_project:1.6 .
+          docker push nishantsahu123/user_management_project:1.6
 
       - name: print success message
         run: echo "Doker image built and pushed successfully!"
