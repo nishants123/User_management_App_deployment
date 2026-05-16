@@ -35,11 +35,23 @@ spec:
           - name: mysql-initdb-volume
             mountPath: /docker-entrypoint-initdb.d
 
-      volumes:                                            #take the schema.sql from configmap
+          - name: mysql-storage                           # actual mysql data will be stored in this path from backend
+            mountPath: /var/lib/mysql
+
+
+      volumes:                                            #take the schema.sql from sql-mount-configmap
         - name: mysql-initdb-volume
           configMap:
             name: mysql-initdb-config
-      
+
+      volumes:                                            #take the data from /var/lib/mysql and store it in the persistent volume
+          - name: mysql-persistent-storage
+            persistentVolumeClaim:
+              claimName: mysql-pvc
+
+#Here both case is opposite first we mount schema.sql to the container using sql mount configmap for running the sql file 
+# then mount the mysql data to the persistent volume using mysql-pvc claim 
+#which is created in Persistent_volume_Claim.yml file and this claim is linked to the mysql-pv which is created in persistent_volume.yml file and store data
     
 ---
 
