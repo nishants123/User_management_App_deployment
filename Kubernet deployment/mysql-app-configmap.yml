@@ -1,4 +1,5 @@
 #This file is used to create a ConfigMap in Kubernetes that contains the database configuration for the application.communication between the application and the mysql database will be done using this configmap 
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
