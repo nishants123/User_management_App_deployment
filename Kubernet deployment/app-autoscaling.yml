@@ -1,0 +1,28 @@
+#Autoscaling configuration for a Kubernetes deployment
+# This file defines a HorizontalPodAutoscaler (HPA) for a deployment named "my-deployment". The HPA automatically scales the number of replicas of the deployment based on CPU and memory utilization.
+#  The minimum number of replicas is set to 2, and the maximum number of replicas is set to 6. 
+# The HPA will scale up or down the number of replicas to maintain an average CPU utilization of 80% and an average memory utilization of 80%.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-deployment 
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource  
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

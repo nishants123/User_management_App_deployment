@@ -1,3 +1,5 @@
+#Using this file mount the schema.sql file to the mysql container using configmap
+
 apiVersion: v1
 kind: ConfigMap
 metadata:

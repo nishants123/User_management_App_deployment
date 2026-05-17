@@ -26,20 +26,23 @@ jobs:
         - name: deploy sql config file
           run: kubectl apply -f "Kubernet deployment/sql_mount_config.yml"
 
-        - name: deploy persistent volume
+        - name: deploy persistent volume file
           run: kubectl apply -f "Kubernet deployment/Persistent_volume.yml"
 
-        - name: deploy persistent volume claim
+        - name: deploy persistent volume claim file
           run: kubectl apply -f "Kubernet deployment/Persistent_volume_Claim.yml"
 
-        - name: deploy mysql 
-          run: kubectl apply -f "Kubernet deployment/database_mysql.yml"
+        - name: deploy mysql database file
+          run: kubectl apply -f "Kubernet deployment/database_deploy.yml"
 
-        - name: deploy app and db config 
-          run: kubectl apply -f "Kubernet deployment/configMAP.yml"
+        - name: deploy app and db config file
+          run: kubectl apply -f "Kubernet deployment/mysql-app-configmap.yml"
 
         - name: deploy app file
           run: kubectl apply -f "Kubernet deployment/app_deploy.yml"
+          
+        - name: deploy app autoscaling file
+          run: kubectl apply -f "Kubernet deployment/app-autoscaling.yml"
 
         - name: print successfully deployment msg 
           run: echo "App deployed successfully"

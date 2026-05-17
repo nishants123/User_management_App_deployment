@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment    
 metadata:
@@ -30,6 +31,14 @@ spec:
           
         ports:
         - containerPort: 3306
+
+        resources:                      #vartical scaling will be done based on these resource limits and requests
+          requests:
+            memory: "800Mi"
+            cpu: "700m"
+          limits:
+            memory: "1000Mi"  #(1Gi)
+            cpu: "1" #(1000m) which means 1 full CPU core
 
         volumeMounts:                                     #mount the schema.sql to the container
           - name: mysql-initdb-volume

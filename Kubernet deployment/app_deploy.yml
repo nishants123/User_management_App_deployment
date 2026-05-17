@@ -16,10 +16,22 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: nishantsahu123/user_management_project:1.6
+        image: nishantsahu123/user_management_project:1.7
         ports:  
         - containerPort: 5000
+# here we are setting resource limits and requests for the container for scaling pods
+# i have total minikube capacity 4 CPU and 3.8Gi memeory so i have devided it for 6 pod and also mysql container
+        resources: 
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
 
+          limits:
+            memory: "300Mi"
+            cpu: "300m"
+
+
+#env for app to db connection
         env:
         - name: DB_HOST
           valueFrom:
