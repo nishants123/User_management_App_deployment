@@ -54,4 +54,4 @@ jobs:
           docker push nishantsahu123/user_management_project:1.9
 
       - name: print success message
-        run: echo "Doker image built and pushed successfully!"
+        run: echo "Docker image built and pushed successfully!"
